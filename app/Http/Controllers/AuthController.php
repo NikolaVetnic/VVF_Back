@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -63,18 +64,19 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register()
+    public function register(Request $request)
     {
-        $registerData = request(['name', 'email', 'password']);
+        $registerData = $request->only(['name', 'email', 'password']);
 
         $existingUser = User::where('email', $registerData['email'])->first();
 
-        if ($existingUser != null)
+        if ($existingUser !== null) {
             return response()->json(['message' => 'Email already taken']);
+        }
 
-        $user = new User();
-        $user->fill($registerData);
-        $user->save();
+        $registerData['password'] = Hash::make($registerData['password']);
+
+        $user = User::create($registerData);
 
         return $user;
     }
