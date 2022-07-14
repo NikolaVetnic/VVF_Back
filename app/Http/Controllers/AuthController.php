@@ -67,6 +67,11 @@ class AuthController extends Controller
     {
         $registerData = request(['name', 'email', 'password']);
 
+        $existingUser = User::where('email', $registerData['email'])->first();
+
+        if ($existingUser != null)
+            return response()->json(['message' => 'Email already taken']);
+
         $user = new User();
         $user->fill($registerData);
         $user->save();
