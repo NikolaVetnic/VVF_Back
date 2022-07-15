@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MovieController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,15 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::get('me', 'AuthController@me');
     Route::post('register', 'AuthController@register');
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'movies',
+    'namespace' => 'App\Http\Controllers'
+], function ($router) {
+    Route::get('index', 'MovieController@index');
+    Route::get('show/{id}', 'MovieController@show');
+    Route::post('store', 'MovieController@store');
+    Route::delete('destroy/{id}', 'MovieController@destroy');
 });
