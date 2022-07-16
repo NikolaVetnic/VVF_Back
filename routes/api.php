@@ -31,6 +31,7 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::get('me', 'AuthController@me');
     Route::post('register', 'AuthController@register');
+    Route::get('user/{id}', 'AuthController@getUser');
 });
 
 Route::group([
@@ -43,6 +44,7 @@ Route::group([
     Route::post('store', 'MovieController@store');
     Route::delete('destroy/{id}', 'MovieController@destroy');
     Route::post('visit/{id}', 'MovieController@addVisit');
+    Route::get('comments/{id}', 'MovieController@indexComments');
 });
 
 Route::group([
@@ -51,4 +53,12 @@ Route::group([
     'namespace' => 'App\Http\Controllers'
 ], function ($router) {
     Route::post('store', 'CommentController@store');
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'reactions',
+    'namespace' => 'App\Http\Controllers'
+], function ($router) {
+    Route::post('store', 'ReactionController@store');
 });

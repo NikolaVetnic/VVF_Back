@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Movie;
+use App\Models\Reaction;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -49,7 +51,13 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return Movie::find($id);
+        $reactions = Reaction::where('movie_id', $id)->get();
+        $movie = Movie::find($id);
+
+        $movie['likes'] = $reactions->where('reaction', 'like')->count();
+        $movie['dislikes'] = $reactions->where('reaction', 'dislike')->count();
+
+        return $movie;
     }
 
     /**
@@ -92,5 +100,10 @@ class MovieController extends Controller
         $movie = Movie::find($id);
 
         return $movie;
+    }
+
+    public function indexComments($id)
+    {
+        return Comment::with('user')->where('movie_id', $id)->orderBy('created_at', 'desc')->get();
     }
 }
