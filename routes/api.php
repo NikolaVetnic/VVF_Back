@@ -44,3 +44,11 @@ Route::group([
     Route::delete('destroy/{id}', 'MovieController@destroy');
     Route::post('visit/{id}', 'MovieController@addVisit');
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'comments',
+    'namespace' => 'App\Http\Controllers'
+], function ($router) {
+    Route::post('store', 'CommentController@store');
+});
