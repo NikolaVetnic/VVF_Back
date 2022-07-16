@@ -42,4 +42,5 @@ Route::group([
     Route::get('show/{id}', 'MovieController@show');
     Route::post('store', 'MovieController@store');
     Route::delete('destroy/{id}', 'MovieController@destroy');
+    Route::post('visit/{id}', 'MovieController@addVisit');
 });

@@ -18,6 +18,7 @@ class Movie extends Model
         'title',
         'description',
         'imageUrl',
-        'genre'
+        'genre',
+        'numVisits'
     ];
 }

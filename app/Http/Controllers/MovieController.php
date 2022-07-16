@@ -85,4 +85,12 @@ class MovieController extends Controller
     {
         Movie::destroy($id);
     }
+
+    public function addVisit($id)
+    {
+        Movie::where('id', $id)->increment('num_visits');
+        $movie = Movie::find($id);
+
+        return $movie;
+    }
 }
