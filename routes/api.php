@@ -62,3 +62,14 @@ Route::group([
 ], function ($router) {
     Route::post('store', 'ReactionController@store');
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'favorites',
+    'namespace' => 'App\Http\Controllers'
+], function ($router) {
+    Route::post('store', 'FavoriteController@store');
+    Route::post('destroy', 'FavoriteController@destroy');
+    Route::get('index/user/{id}', 'FavoriteController@indexByUser');
+    Route::put('update', 'FavoriteController@update');
+});

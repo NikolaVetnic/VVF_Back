@@ -44,6 +44,7 @@ class AuthController extends Controller
      */
     public function me()
     {
+        // return User::with('favorites')->where('id', auth()->user()->id)->get();
         return response()->json(auth()->user());
     }
 

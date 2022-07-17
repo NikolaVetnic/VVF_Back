@@ -72,4 +72,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Reaction::class);
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Reaction::class);
+    }
 }

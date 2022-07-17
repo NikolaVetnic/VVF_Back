@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Favorite;
 use App\Models\Movie;
 use App\Models\Reaction;
 use Illuminate\Http\Request;
