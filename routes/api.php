@@ -46,6 +46,7 @@ Route::group([
     Route::post('visit/{id}', 'MovieController@addVisit');
     Route::get('comments/{id}', 'MovieController@indexComments');
     Route::get('best', 'MovieController@best');
+    Route::get('genre/{genre}', 'MovieController@genre');
 });
 
 Route::group([

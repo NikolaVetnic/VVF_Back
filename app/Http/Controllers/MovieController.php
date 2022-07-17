@@ -122,4 +122,9 @@ class MovieController extends Controller
 
         return array_slice($movies, 0, 10);
     }
+
+    public function genre($genre)
+    {
+        return Movie::where('genre', $genre)->get();
+    }
 }
