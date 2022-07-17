@@ -107,4 +107,19 @@ class MovieController extends Controller
     {
         return Comment::with('user')->where('movie_id', $id)->orderBy('created_at', 'desc')->get();
     }
+
+    public function best()
+    {
+        $movies = Movie::all();
+
+        foreach ($movies as $movie) {
+            $reactions = Reaction::where('movie_id', $movie['id'])->get();
+            $movie['likes'] = $reactions->where('reaction', 'like')->count();
+            $movie['dislikes'] = $reactions->where('reaction', 'dislike')->count();
+        }
+
+        $movies = $movies->sortByDesc('likes')->values()->all();
+
+        return array_slice($movies, 0, 10);
+    }
 }

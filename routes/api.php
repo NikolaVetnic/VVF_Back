@@ -45,6 +45,7 @@ Route::group([
     Route::delete('destroy/{id}', 'MovieController@destroy');
     Route::post('visit/{id}', 'MovieController@addVisit');
     Route::get('comments/{id}', 'MovieController@indexComments');
+    Route::get('best', 'MovieController@best');
 });
 
 Route::group([
