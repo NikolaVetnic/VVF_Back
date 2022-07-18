@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('reactions', function (Blueprint $table) {
             $table->id();
-            $table->string('reaction');
+            $table->enum('reaction', ['like', 'dislike']);
 
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('movie_id');

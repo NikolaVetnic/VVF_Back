@@ -21,16 +21,6 @@ class MovieController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -38,8 +28,8 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        $registerData = $request->only(['title', 'description', 'imageUrl', 'genre']);
-        $movie = Movie::create($registerData);
+        $movieData = $request->only(['title', 'description', 'imageUrl', 'genre']);
+        $movie = Movie::create($movieData);
 
         return $movie;
     }
@@ -62,29 +52,6 @@ class MovieController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -103,24 +70,14 @@ class MovieController extends Controller
         return $movie;
     }
 
-    public function indexComments($id)
+    public function getComments($id)
     {
-        return Comment::with('user')->where('movie_id', $id)->orderBy('created_at', 'desc')->get();
+        return Movie::find($id)->sorted_comments();
     }
 
     public function best()
     {
-        $movies = Movie::all();
-
-        foreach ($movies as $movie) {
-            $reactions = Reaction::where('movie_id', $movie['id'])->get();
-            $movie['likes'] = $reactions->where('reaction', 'like')->count();
-            $movie['dislikes'] = $reactions->where('reaction', 'dislike')->count();
-        }
-
-        $movies = $movies->sortByDesc('likes')->values()->all();
-
-        return array_slice($movies, 0, 10);
+        return Movie::all()->sortByDesc('likes')->values()->take(10);
     }
 
     public function genre($genre)

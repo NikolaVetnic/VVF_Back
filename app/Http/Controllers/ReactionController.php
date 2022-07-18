@@ -17,18 +17,19 @@ class ReactionController extends Controller
      */
     public function store(Request $request)
     {
-        $registerData = $request->only(['reaction', 'userId', 'movieId']);
+        $reactionData = $request->only(['reaction', 'user_id', 'movie_id']);
 
-        $user = User::where('id', $registerData['userId'])->first();
-        $movie = Movie::where('id', $registerData['movieId'])->first();
+        // $user = User::where('id', $registerData['userId'])->first();
+        // $movie = Movie::where('id', $registerData['movieId'])->first();
 
-        Reaction::where('user_id', $registerData['userId'])->where('movie_id', $registerData['movieId'])->delete();
+        Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->delete();
+        $reaction = Reaction::create($reactionData);
 
-        $reaction = new Reaction();
-        $reaction->reaction = $registerData['reaction'];
-        $reaction->user()->associate($user);
-        $reaction->movie()->associate($movie);
-        $reaction->save();
+        // $reaction = new Reaction();
+        // $reaction->reaction = $registerData['reaction'];
+        // $reaction->user()->associate($user);
+        // $reaction->movie()->associate($movie);
+        // $reaction->save();
 
         return $reaction;
     }

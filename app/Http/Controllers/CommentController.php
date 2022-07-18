@@ -17,16 +17,8 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $registerData = $request->only(['content', 'userId', 'movieId']);
-
-        $user = User::where('id', $registerData['userId'])->first();
-        $movie = Movie::where('id', $registerData['movieId'])->first();
-
-        $comment = new Comment();
-        $comment->content = $registerData['content'];
-        $comment->user()->associate($user);
-        $comment->movie()->associate($movie);
-        $comment->save();
+        $commentData = $request->only(['content', 'user_id', 'movie_id']);
+        $comment = Comment::create($commentData);
 
         return $comment;
     }

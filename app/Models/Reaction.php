@@ -16,6 +16,8 @@ class Reaction extends Model
      */
     protected $fillable = [
         'reaction',
+        'user_id',
+        'movie_id'
     ];
 
     public function user()
