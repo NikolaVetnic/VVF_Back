@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->boolean('watched');
+            $table->boolean('watched')->default(false);;
 
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('movie_id');
