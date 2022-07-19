@@ -106,4 +106,9 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    protected function getUser($id)
+    {
+        return User::findOrFail($id);
+    }
 }
