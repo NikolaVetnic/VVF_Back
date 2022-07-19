@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('movies', function ($table) {
-            $table->integer('num_visits');
+            $table->integer('num_visits')->default(0);
         });
     }
 

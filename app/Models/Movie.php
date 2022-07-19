@@ -18,9 +18,9 @@ class Movie extends Model
     protected $fillable = [
         'title',
         'description',
-        'imageUrl',
+        'image_url',
         'genre',
-        'numVisits'
+        'num_visits'
     ];
 
     protected $appends = ['likes', 'dislikes'];
@@ -58,7 +58,7 @@ class Movie extends Model
 
     public function sorted_comments()
     {
-        return $this->comments()->orderBy('created_at', 'desc')->get();
+        return $this->with('user')->comments()->orderBy('created_at', 'desc')->get();
     }
 
     public function reactions()

@@ -28,10 +28,10 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        $movieData = $request->only(['title', 'description', 'imageUrl', 'genre']);
+        $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
         $movie = Movie::create($movieData);
 
-        return $movie;
+        return $movieData;
     }
 
     /**
@@ -72,7 +72,9 @@ class MovieController extends Controller
 
     public function getComments($id)
     {
-        return Movie::find($id)->sorted_comments();
+        // ovo mi vraca korisnike sa komentarima, metod iz Eloquent modela ne
+        return Comment::with('user')->where('movie_id', $id)->orderBy('created_at', 'desc')->get();
+        // return Movie::find($id)->sorted_comments();
     }
 
     public function best()

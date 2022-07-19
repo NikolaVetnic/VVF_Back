@@ -17,10 +17,10 @@ class FavoriteController extends Controller
      */
     public function store(Request $request)
     {
-        $favoriteData = $request->only(['userId', 'movieId', 'watched']);
+        $favoriteData = $request->only(['user_id', 'movie_id', 'watched']);
 
-        $user = User::find($favoriteData['userId']);
-        $movie = Movie::find($favoriteData['movieId']);
+        $user = User::find($favoriteData['user_id']);
+        $movie = Movie::find($favoriteData['movie_id']);
 
         $favorite = new Favorite();
         $favorite->watched = $favoriteData["watched"];
@@ -40,9 +40,11 @@ class FavoriteController extends Controller
      */
     public function update(Request $request)
     {
-        $registerData = $request->only(['userId', 'movieId']);
+        $registerData = $request->only(['id']);
 
-        $favorite = Favorite::where('user_id', $registerData['userId'])->where('movie_id', $registerData['movieId'])->first();
+        // $favorite = Favorite::where('user_id', $registerData['user_id'])->where('movie_id', $registerData['movie_id'])->first();
+
+        $favorite = Favorite::find($registerData['id']);
         $favorite['watched'] = $favorite['watched'] === 0 ? 1 : 0;
         $favorite->save();
 
@@ -57,8 +59,9 @@ class FavoriteController extends Controller
      */
     public function destroy(Request $request)
     {
-        $favoriteData = $request->only(['userId', 'movieId']);
-        Favorite::where('user_id', $favoriteData['userId'])->where('movie_id', $favoriteData['movieId'])->delete();
+        $favoriteData = $request->only(['id']);
+        // Favorite::where('user_id', $favoriteData['user_id'])->where('movie_id', $favoriteData['movie_id'])->delete();
+        Favorite::destroy($favoriteData['id']);
     }
 
     public function indexByUser($id)
