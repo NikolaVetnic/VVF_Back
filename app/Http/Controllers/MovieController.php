@@ -13,17 +13,11 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $searchQuery = $request->query('term');
-
-        if ($searchQuery === null)
-            return Movie::all();
-
-        return Movie::searchByQuery(array('match' => array('title' => $searchQuery)));
+        return Movie::all();
     }
 
     /**
@@ -36,7 +30,6 @@ class MovieController extends Controller
     {
         $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
         $movie = Movie::create($movieData);
-        $movie->addToIndex();
 
         return $movieData;
     }
