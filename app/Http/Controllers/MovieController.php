@@ -36,6 +36,7 @@ class MovieController extends Controller
     {
         $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
         $movie = Movie::create($movieData);
+        $movie->addToIndex();
 
         return $movieData;
     }
