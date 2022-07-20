@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Elasticquent\ElasticquentServiceProvider::class,
     ],
 
     /*
@@ -211,6 +212,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
     ])->toArray(),
 
 ];
