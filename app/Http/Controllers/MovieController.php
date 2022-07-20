@@ -86,4 +86,14 @@ class MovieController extends Controller
     {
         return Movie::where('genre', $genre)->get();
     }
+
+    public function search($term)
+    {
+        if (isset($_GET['term'])) {
+            return Movie::all();
+        }
+
+        $movies = Movie::searchByQuery(array('match' => array('title' => $term)));
+        return $movies;
+    }
 }
