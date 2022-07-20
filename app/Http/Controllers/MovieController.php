@@ -13,11 +13,17 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Movie::all();
+        $searchQuery = $request->query('term');
+
+        if ($searchQuery === null)
+            return Movie::all();
+
+        return Movie::searchByQuery(array('match' => array('title' => $searchQuery)));
     }
 
     /**
@@ -85,15 +91,5 @@ class MovieController extends Controller
     public function genre($genre)
     {
         return Movie::where('genre', $genre)->get();
-    }
-
-    public function search($term)
-    {
-        if (isset($_GET['term'])) {
-            return Movie::all();
-        }
-
-        $movies = Movie::searchByQuery(array('match' => array('title' => $term)));
-        return $movies;
     }
 }

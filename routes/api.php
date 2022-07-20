@@ -47,7 +47,7 @@ Route::group([
     Route::get('comments/{id}', 'MovieController@getComments');
     Route::get('best', 'MovieController@best');
     Route::get('genre/{genre}', 'MovieController@genre');
-    Route::get('index/{term}', 'MovieController@search');
+    // Route::get('index/{term}', 'MovieController@search');
 });
 
 Route::group([
