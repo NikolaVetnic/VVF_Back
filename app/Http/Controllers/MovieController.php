@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MovieCreated;
 use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Movie;
 use App\Models\Reaction;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MovieController extends Controller
 {
@@ -28,10 +31,12 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
+        $movieData = $request->only(['title', 'description', 'image_url', 'genre', 'admin']);
         $movie = Movie::create($movieData);
 
-        return $movieData;
+        Mail::to($movieData['admin'])->send(new MovieCreated($movie));
+
+        return $movie;
     }
 
     /**
