@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\MovieCreated;
 use App\Models\Movie;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,6 +38,7 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new MovieCreated($this->movie));
+        // Mail::to($this->email)->send(new MovieCreated($this->movie));
+        throw new Exception('My Exception');
     }
 }
