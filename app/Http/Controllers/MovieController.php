@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
 use App\Mail\MovieCreated;
 use App\Models\Comment;
 use App\Models\Favorite;
@@ -34,7 +35,8 @@ class MovieController extends Controller
         $movieData = $request->only(['title', 'description', 'image_url', 'genre', 'admin']);
         $movie = Movie::create($movieData);
 
-        Mail::to($movieData['admin'])->send(new MovieCreated($movie));
+        // Mail::to($movieData['admin'])->send(new MovieCreated($movie));
+        SendEmail::dispatch($movie, $movieData['admin']);
 
         return $movie;
     }
