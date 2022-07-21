@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Favorite;
+use App\Models\Image as ModelsImage;
 use App\Models\Movie;
 use App\Models\Reaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class MovieController extends Controller
 {
@@ -17,7 +20,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::all();
+        return Movie::with('image')->get();
     }
 
     /**
@@ -29,9 +32,31 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
+        $newMovie = new Movie();
+
+        // =-=-=-=
+
+        $url = $movieData['image_url'];
+
+        $path = "/Users/nikolavetnic/Documents/Various Projects/vvf-project-back/storage/app/";
+        $name_full = $path . "full-size/" . substr($url, strrpos($url, '/') + 1);
+        $thumbnail = $path . "thumbnails/" . substr($url, strrpos($url, '/') + 1);
+
+        Image::make($url)->resize(400, 400)->save($name_full);
+        Image::make($url)->resize(200, 200)->save($thumbnail);
+
+        $image = new ModelsImage();
+        $image['full-size'] = $name_full;
+        $image['thumbnail'] = $thumbnail;
+
+        // =-=-=-=
+
         $movie = Movie::create($movieData);
 
-        return $movieData;
+        $image->movie()->associate($movie);
+        $image->save();
+
+        return $movie;
     }
 
     /**
