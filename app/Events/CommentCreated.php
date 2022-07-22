@@ -31,6 +31,13 @@ class CommentCreated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('comments');
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'data' => 'key'
+        ];
     }
 }

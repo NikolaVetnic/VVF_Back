@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentCreated;
 use App\Models\Comment;
 use App\Models\Movie;
 use App\Models\User;
@@ -19,6 +20,8 @@ class CommentController extends Controller
     {
         $commentData = $request->only(['content', 'user_id', 'movie_id']);
         $comment = Comment::create($commentData);
+
+        CommentCreated::dispatch($comment);
 
         return $comment;
     }

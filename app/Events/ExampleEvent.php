@@ -31,7 +31,7 @@ class ExampleEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('like');
+        return new Channel('test');
     }
 
     public function broadcastWith()
