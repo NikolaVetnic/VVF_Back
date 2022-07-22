@@ -6,14 +6,27 @@ use App\Jobs\SendEmail;
 use App\Mail\MovieCreated;
 use App\Models\Comment;
 use App\Models\Favorite;
+use App\Models\Image;
 use App\Models\Movie;
 use App\Models\Reaction;
+use App\Services\ImageService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Image as InterventionImage;
+use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MovieController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +34,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::all();
+        return Movie::with('image')->get();
     }
 
     /**
@@ -33,7 +46,11 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $movieData = $request->only(['title', 'description', 'image_url', 'genre', 'admin']);
+
         $movie = Movie::create($movieData);
+        $image = $request->file('file');
+
+        $this->imageService->saveImage($movie, $image);
 
         // Mail::to($movieData['admin'])->send(new MovieCreated($movie));
         SendEmail::dispatch($movie, $movieData['admin']);

@@ -71,4 +71,9 @@ class Movie extends Model
     {
         return $this->hasMany(Reaction::class);
     }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class);
+    }
 }
