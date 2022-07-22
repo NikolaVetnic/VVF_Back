@@ -15,8 +15,9 @@ class Image extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'full-size',
-        'thumbnail'
+        'full_size',
+        'thumbnail',
+        'movie_id'
     ];
 
     public function movie()

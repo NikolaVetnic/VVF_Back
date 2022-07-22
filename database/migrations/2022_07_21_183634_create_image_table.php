@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
 
-            $table->string('full-size');
+            $table->string('full_size');
             $table->string('thumbnail');
 
             $table->unsignedBigInteger('movie_id');
