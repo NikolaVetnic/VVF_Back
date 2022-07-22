@@ -14,8 +14,7 @@ class ImageService
     {
         $name_stub = Str::random(16);
 
-        $temp = explode('.', $image->getClientOriginalName());
-        $ext = $temp[count($temp) - 1];
+        $ext = $image->getClientOriginalExtension() ?: $image->guessExtension();
 
         $name_full = 'uploads/movie/full_size/' . $name_stub . "_full." . $ext;
         $name_thumb = 'uploads/movie/thumbnail/' . $name_stub . "_thumb." . $ext;
