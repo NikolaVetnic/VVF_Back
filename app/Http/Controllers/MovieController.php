@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
+use App\Mail\MovieCreated;
 use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Image;
@@ -12,6 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image as InterventionImage;
 use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MovieController extends Controller
 {
@@ -40,12 +45,15 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
+        $movieData = $request->only(['title', 'description', 'image_url', 'genre', 'admin']);
 
         $movie = Movie::create($movieData);
         $image = $request->file('file');
 
         $this->imageService->saveImage($movie, $image);
+
+        // Mail::to($movieData['admin'])->send(new MovieCreated($movie));
+        SendEmail::dispatch($movie, $movieData['admin']);
 
         return $movie;
     }
