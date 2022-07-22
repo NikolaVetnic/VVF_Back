@@ -32,29 +32,50 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $movieData = $request->only(['title', 'description', 'image_url', 'genre']);
-        $newMovie = new Movie();
+        $image = $request->file('file');
 
-        // =-=-=-=
+        $name_full = public_path('uploads/movie/full-size/' . $image->getClientOriginalName());
+        $name_thumb = public_path('uploads/movie/thumbnail/' . $image->getClientOriginalName());
 
-        $url = $movieData['image_url'];
-
-        $path = "/Users/nikolavetnic/Documents/Various Projects/vvf-project-back/storage/app/";
-        $name_full = $path . "full-size/" . substr($url, strrpos($url, '/') + 1);
-        $thumbnail = $path . "thumbnails/" . substr($url, strrpos($url, '/') + 1);
-
-        Image::make($url)->resize(400, 400)->save($name_full);
-        Image::make($url)->resize(200, 200)->save($thumbnail);
+        Image::make($image->getContent())->resize(400, 400)->save($name_full);
+        Image::make($image->getContent())->resize(200, 200)->save($name_thumb);
 
         $image = new ModelsImage();
         $image['full-size'] = $name_full;
-        $image['thumbnail'] = $thumbnail;
-
-        // =-=-=-=
+        $image['thumbnail'] = $name_thumb;
 
         $movie = Movie::create($movieData);
 
         $image->movie()->associate($movie);
         $image->save();
+
+
+
+        // $newMovie = new Movie();
+
+        // =-=-=-=
+
+        // $url = $movieData['image_url'];
+
+        // $path = "/Users/nikolavetnic/Documents/Various Projects/vvf-project-back/storage/app/";
+        // $name_full = $path . "full-size/" . substr($url, strrpos($url, '/') + 1);
+        // $thumbnail = $path . "thumbnails/" . substr($url, strrpos($url, '/') + 1);
+
+        // $name_full = public_path('uploads/movie/thumbnail/');
+
+        // Image::make($url)->resize(400, 400)->save($name_full);
+        // Image::make($url)->resize(200, 200)->save($thumbnail);
+
+        // $image = new ModelsImage();
+        // $image['full-size'] = $name_full;
+        // $image['thumbnail'] = $thumbnail;
+
+        // =-=-=-=
+
+        // $movie = Movie::create($movieData);
+
+        // $image->movie()->associate($movie);
+        // $image->save();
 
         return $movie;
     }
