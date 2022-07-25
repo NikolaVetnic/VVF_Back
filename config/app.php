@@ -213,6 +213,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
+        'Redis' => Illuminate\Support\Facades\Redis::class
     ])->toArray(),
 
 ];

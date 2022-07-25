@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
