@@ -21,7 +21,6 @@ class ReactionController extends Controller
      */
     public function store(Request $request)
     {
-        throw new Exception('Such reaction already exists');
         try {
             $reactionData = $request->only(['reaction', 'user_id', 'movie_id']);
 
