@@ -32,19 +32,3 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
-
-import Echo from "laravel-echo";
-
-window.io = require("socket.io-client");
-window.Echo = new Echo({
-    broadcaster: "socket.io",
-    host: window.location.hostname + ":6001",
-});
-
-window.Echo.channel("test-event").listen("ExampleEvent", (e) => {
-    console.log(e);
-});
-
-window.Echo.channel("like").listen("like", (e) => {
-    console.log("LIKE");
-});
