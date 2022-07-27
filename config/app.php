@@ -197,6 +197,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Elasticquent\ElasticquentServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -214,6 +215,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
         'Redis' => Illuminate\Support\Facades\Redis::class
+        'Image' => Intervention\Image\Facades\Image::class
     ])->toArray(),
 
 ];

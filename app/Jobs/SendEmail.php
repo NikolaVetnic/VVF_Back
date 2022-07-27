@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Mail\MovieCreated;
 use App\Models\Movie;
-use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
