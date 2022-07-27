@@ -46,7 +46,7 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $movieData = $request->only(['title', 'description', 'image_url', 'genre', 'admin']);
-
+        
         $movie = Movie::create($movieData);
         $image = $request->file('file');
 

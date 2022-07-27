@@ -191,12 +191,12 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Elasticquent\ElasticquentServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
     ],
 
@@ -214,6 +214,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
+        'Redis' => Illuminate\Support\Facades\Redis::class
         'Image' => Intervention\Image\Facades\Image::class
     ])->toArray(),
 
