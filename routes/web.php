@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ExampleEvent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('test-broadcast', function () {
-    broadcast(new \App\Events\ExampleEvent);
+    broadcast(new ExampleEvent());
 });
