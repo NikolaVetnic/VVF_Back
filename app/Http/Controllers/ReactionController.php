@@ -6,7 +6,11 @@ use App\Events\ReactionCreated;
 use App\Models\Movie;
 use App\Models\Reaction;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
+use Throwable;
 
 class ReactionController extends Controller
 {
@@ -18,13 +22,21 @@ class ReactionController extends Controller
      */
     public function store(Request $request)
     {
-        $reactionData = $request->only(['reaction', 'user_id', 'movie_id']);
+        try {
+            $reactionData = $request->only(['reaction', 'user_id', 'movie_id']);
+          
+            $reaction = Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->first();
 
-        Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->delete();
-        $reaction = Reaction::create($reactionData);
+            if ($reaction !== null && $reaction['reaction'] === $reactionData['reaction']) {
+                throw new InvalidArgumentException('Such reaction already exists');
+            }
 
-        ReactionCreated::dispatch($reaction);
+            Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->delete();
+            $reaction = Reaction::create($reactionData);
 
-        return $reaction;
+            return $reaction;
+        } catch (Throwable $error) {
+            Log::alert($error);
+        }
     }
 }

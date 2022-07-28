@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 use Image as InterventionImage;
 use Illuminate\Support\Str;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MovieController extends Controller

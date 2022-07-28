@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
 
+            $table->unique(['user_id', 'movie_id', 'reaction']);
+
             $table->timestamps();
         });
     }
