@@ -7,6 +7,8 @@ use App\Models\Reaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 use Tests\TestCase;
 
 class LikeTest extends TestCase
@@ -25,20 +27,18 @@ class LikeTest extends TestCase
 
     public function test_like()
     {
-        $user = User::inRandomOrder()->first();
-        $movie = Movie::inRandomOrder()->first();
+        $user = User::factory()->create();
+        $movie = Movie::factory()->create();
 
-        Reaction::where('user_id', $user['id'])->where('movie_id', $movie['id'])->delete();
-        $reaction = Reaction::where('user_id', $user['id'])->where('movie_id', $movie['id'])->first();
+        $response = $this->postJson('/api/reactions/store', [
+            'user_id' => $user['id'],
+            'movie_id' => $movie['id'],
+            'reaction' => 'like'
+        ]);
 
-        $this->assertNull($reaction);
+        $response->assertSuccessful();
 
-        $reactionData = array('user_id' => $user['id'], 'movie_id' => $movie['id'], 'reaction' => 'like');
-        Reaction::create($reactionData);
-
-        $reaction = Reaction::where('user_id', $user['id'])->where('movie_id', $movie['id'])->first();
-
-        $this->assertTrue($reaction != null && $reaction['reaction'] === 'like');
+        Reaction::find($response->json('id'));
     }
 
     /**
@@ -46,18 +46,23 @@ class LikeTest extends TestCase
      */
     public function test_exception()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage('Object of class Illuminate\Testing\TestResponse could not be converted to string');
 
-        $user = User::inRandomOrder()->first();
-        $movie = Movie::inRandomOrder()->first();
+        $user = User::factory()->create();
+        $movie = Movie::factory()->create();
 
-        Reaction::where('user_id', $user['id'])->where('movie_id', $movie['id'])->delete();
-        $reaction = Reaction::where('user_id', $user['id'])->where('movie_id', $movie['id'])->first();
+        $response = $this->postJson('/api/reactions/store', [
+            'user_id' => $user['id'],
+            'movie_id' => $movie['id'],
+            'reaction' => 'like'
+        ]);
 
-        $this->assertNull($reaction);
+        $response = $this->postJson('/api/reactions/store', [
+            'user_id' => $user['id'],
+            'movie_id' => $movie['id'],
+            'reaction' => 'like'
+        ]);
 
-        $reactionData = array('user_id' => $user['id'], 'movie_id' => $movie['id'], 'reaction' => 'like');
-        Reaction::create($reactionData);
-        Reaction::create($reactionData);
+        Log::debug($response);
     }
 }

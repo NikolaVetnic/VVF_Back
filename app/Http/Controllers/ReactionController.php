@@ -26,15 +26,16 @@ class ReactionController extends Controller
 
             $reaction = Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->first();
 
-            if ($reaction['reaction'] === $reactionData['reaction'])
+            if ($reaction !== null && $reaction['reaction'] === $reactionData['reaction']) {
                 throw new InvalidArgumentException('Such reaction already exists');
+            }
 
             Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->delete();
             $reaction = Reaction::create($reactionData);
 
             return $reaction;
         } catch (Throwable $error) {
-            Log::debug($error);
+            Log::alert($error);
         }
     }
 }
