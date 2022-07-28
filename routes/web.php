@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ExampleEvent;
 use Illuminate\Support\Facades\Route;
 
 /*

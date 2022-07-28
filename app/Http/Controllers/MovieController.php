@@ -10,7 +10,6 @@ use App\Models\Image;
 use App\Models\Movie;
 use App\Models\Reaction;
 use App\Services\ImageService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image as InterventionImage;
 use Illuminate\Support\Str;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReactionCreated;
 use App\Models\Movie;
 use App\Models\Reaction;
 use App\Models\User;
@@ -23,7 +24,7 @@ class ReactionController extends Controller
     {
         try {
             $reactionData = $request->only(['reaction', 'user_id', 'movie_id']);
-
+          
             $reaction = Reaction::where('user_id', $reactionData['user_id'])->where('movie_id', $reactionData['movie_id'])->first();
 
             if ($reaction !== null && $reaction['reaction'] === $reactionData['reaction']) {
