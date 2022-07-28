@@ -38,15 +38,20 @@ class LikeTest extends TestCase
 
         $response->assertSuccessful();
 
-        Reaction::find($response->json('id'));
+        $reaction = Reaction::find($response->json('id'));
+
+        $this->assertEquals($reaction['user_id'], $user['id']);
+        $this->assertEquals($reaction['movie_id'], $movie['id']);
+        $this->assertEquals($reaction['reaction'], 'like');
     }
 
     /**
      * @expectedException Exception
      */
-    public function test_exception()
+    public function test_like_after_already_liked_a_movie()
     {
-        $this->expectErrorMessage('Object of class Illuminate\Testing\TestResponse could not be converted to string');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage('Such reaction already exists');
 
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
@@ -62,7 +67,5 @@ class LikeTest extends TestCase
             'movie_id' => $movie['id'],
             'reaction' => 'like'
         ]);
-
-        Log::debug($response);
     }
 }
